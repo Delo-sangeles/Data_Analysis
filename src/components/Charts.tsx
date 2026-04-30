@@ -63,9 +63,11 @@ const COLORS = ['#E8622A', '#E8956A', '#8FA882', '#7A9E6E', '#6BB5A0', '#4A9E8A'
 function CustomTooltip({ active, payload, label }: any) {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-gray-800 border border-gray-600 rounded-lg p-3 shadow-lg">
-        <p className="text-lg font-semibold tracking-wide text-gray-100 border-b border-gray-700 pb-3 mb-4">{label}</p>
-        <p className="text-orange-400">Precio medio: <span className="font-bold">€{payload[0].value}</span></p>
+      <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-xl p-4 shadow-lg shadow-black/40">
+        <p className="text-white font-semibold mb-2">{label}</p>
+        <p className="text-teal-300">
+          Precio medio: <span className="font-bold text-white">€{payload[0].value}</span>
+        </p>
       </div>
     )
   }
@@ -76,10 +78,14 @@ function ScatterTooltip({ active, payload }: any) {
   if (active && payload && payload.length) {
     const d = payload[0].payload
     return (
-      <div className="bg-gray-800 border border-teal-500/30 rounded-lg p-3 shadow-lg">
-        <p className="text-teal-400 font-semibold">{d.neighbourhood}</p>
-        <p className="text-gray-300 text-sm">Precio medio: <span className="text-white font-bold">€{d.price}</span></p>
-        <p className="text-gray-300 text-sm">Reseñas: <span className="text-white font-bold">{d.reviews}</span></p>
+      <div className="bg-white/10 backdrop-blur-xl border border-teal-400/30 rounded-xl p-4 shadow-lg shadow-teal-500/20">
+        <p className="text-teal-300 font-semibold">{d.neighbourhood}</p>
+        <p className="text-gray-300 text-sm">
+          Precio: <span className="text-white font-bold">€{d.price}</span>
+        </p>
+        <p className="text-gray-300 text-sm">
+          Reseñas: <span className="text-white font-bold">{d.reviews}</span>
+        </p>
         <p className="text-gray-400 text-xs mt-1">{d.city}</p>
       </div>
     )
@@ -91,29 +97,42 @@ function ScatterTooltip({ active, payload }: any) {
 
 export function CityBarChart({ data, title, analysis }: Props) {
   return (
-    <div className="flex flex-col gap-4 max-w-5xl">  {/* ← flex-col en vez de flex */}
-      <div className="bg-gray-900 rounded-xl p-6">
-        <h3 className="text-lg font-semibold tracking-wide text-gray-100 border-b border-gray-700 pb-3 mb-4">{title}</h3>
+    <div className="flex flex-col gap-6 max-w-5xl">
+
+      <div className="bg-white/5 backdrop-blur-2xl border border-white/10 rounded-2xl p-6 shadow-xl shadow-black/30">
+        
+        <h3 className="text-lg font-semibold text-white tracking-wide mb-4 border-b border-white/10 pb-3">
+          {title}
+        </h3>
+
         <ResponsiveContainer width="100%" height={300}>
-          <BarChart data={data} margin={{ top: 20, right: 10, left: 0, bottom: 5 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#374151" vertical={false} />
-            <XAxis dataKey="name" stroke="#9CA3AF" tick={{ fontSize: 12 }} />
-            <YAxis stroke="#9CA3AF" tick={{ fontSize: 12 }} />
-            <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(255,255,255,0.05)' }} />
-            <Bar dataKey="value" radius={[4, 4, 0, 0]}>
+          <BarChart data={data}>
+            <CartesianGrid stroke="rgba(255,255,255,0.08)" vertical={false} />
+            
+            <XAxis dataKey="name" stroke="#9CA3AF" />
+            <YAxis stroke="#9CA3AF" />
+
+            <Tooltip
+              content={<CustomTooltip />}
+              cursor={{ fill: 'rgba(255,255,255,0.05)' }}
+            />
+
+            <Bar dataKey="value" radius={[6, 6, 0, 0]}>
               {data.map((_, index) => (
-                <Cell key={index} fill={COLORS[index % COLORS.length]} />
+                <Cell key={index} fill="#2DD4BF" />
               ))}
             </Bar>
           </BarChart>
         </ResponsiveContainer>
       </div>
 
-      {/* Análisis debajo */}
-      <div className="bg-gray-900 rounded-xl p-6">
-        <h4 className="text-gray-400 text-sm font-medium uppercase tracking-wider mb-3"> Análisis</h4>
+      <div className="bg-white/5 backdrop-blur-2xl border border-white/10 rounded-2xl p-6 shadow-md shadow-black/20">
+        <h4 className="text-teal-400 text-sm uppercase tracking-wider mb-3">
+          Análisis
+        </h4>
         <p className="text-gray-200 text-sm leading-relaxed">{analysis}</p>
       </div>
+
     </div>
   )
 }
