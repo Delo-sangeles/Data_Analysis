@@ -70,21 +70,7 @@ const getColor = (price: number) => {
         </MapContainer>
       </div>
 
-      {/* KPIs debajo del mapa */}
-      <div className="grid grid-cols-3 gap-4 mt-4">
-        <div className="bg-blue-500 rounded-xl p-4 text-center">
-          <p className="text-3xl font-bold text-white">{avgPrice}</p>
-          <p className="text-blue-100 text-sm font-medium mt-1">Promedio de price</p>
-        </div>
-        <div className="bg-red-500 rounded-xl p-4 text-center">
-          <p className="text-3xl font-bold text-white">${maxPrice}</p>
-          <p className="text-red-100 text-sm font-medium mt-1">Máx. de price</p>
-        </div>
-        <div className="bg-green-500 rounded-xl p-4 text-center">
-          <p className="text-3xl font-bold text-white">${minPrice}</p>
-          <p className="text-green-100 text-sm font-medium mt-1">Mín. de price</p>
-        </div>
-      </div>
+     
     </div>
   )
 }

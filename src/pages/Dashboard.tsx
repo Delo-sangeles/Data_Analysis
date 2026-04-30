@@ -1,4 +1,4 @@
-import { CityBarChart, NeighbourhoodScatter, NeighbourhoodHorizontalBar } from '../components/Charts'
+import { CityBarChart, NeighbourhoodScatter, NeighbourhoodHorizontalBar, DonutChart } from '../components/Charts'
 import { PriceMap } from '../components/MapChart'
 
 const cityData = [
@@ -8,6 +8,10 @@ const cityData = [
   { name: 'London',   value: 122 },
   { name: 'Milan',    value: 115 },
   { name: 'Tokyo',    value: 91  },
+]
+const hostData = [
+  { name: 'host',      value: 161256 },
+  { name: 'superhost', value: 57153  },
 ]
 
 const scatterData = [
@@ -79,74 +83,145 @@ const madridData = [
   { lat: 40.4150, lng: -3.7300, neighbourhood: 'Carabanchel', price: 55,  reviews: 80 },
 ]
 
+function SectionHeader({ emoji, title, subtitle }: { emoji: string, title: string, subtitle: string }) {
+  return (
+    <div className="flex items-center gap-3 mb-6">
+      <span className="text-2xl">{emoji}</span>
+      <div>
+        <h2 className="text-xl font-bold text-white tracking-tight">{title}</h2>
+        <p className="text-gray-500 text-xs uppercase tracking-widest mt-0.5">{subtitle}</p>
+      </div>
+      <div className="flex-1 h-px bg-gray-700 ml-4" />
+    </div>
+  )
+}
+
 export default function Dashboard() {
   return (
-    <div className="space-y-8">
-      <h1 className="text-4xl font-bold tracking-tight bg-gradient-to-r from-teal-400 to-blue-400 bg-clip-text text-transparent">
-        Dashboard
-      </h1>
-      <p className="text-gray-400 text-sm tracking-widest uppercase mt-1">
-        Análisis del mercado de alojamientos turísticos · 2026
-      </p>
+    <div className="space-y-12">
+
+      {/* Cabecera */}
+      <div>
+        <h1 className="text-4xl font-bold tracking-tight bg-gradient-to-r from-teal-400 to-blue-400 bg-clip-text text-transparent">
+          Dashboard
+        </h1>
+        <p className="text-gray-400 text-sm tracking-widest uppercase mt-1">
+          Análisis del mercado de alojamientos turísticos · 2026
+        </p>
+      </div>
 
       {/* Resumen empresa */}
-      <div className="bg-gradient-to-r from-teal-900/40 to-gray-800 border border-teal-500/20 rounded-xl p-6">
-        <div className="flex items-start gap-4">
-          <div className="text-4xl">📈</div>
-          <div>
-            <h2 className="text-teal-400 font-bold text-xl mb-2">DataInsight Analytics</h2>
-            <p className="text-gray-300 text-sm leading-relaxed max-w-3xl">
+      <div className="bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700 rounded-2xl p-8 shadow-xl">
+        <div className="flex items-start gap-6">
+          <div className="bg-teal-500/10 border border-teal-500/30 rounded-xl p-4 shrink-0">
+            <span className="text-4xl">📈</span>
+          </div>
+          <div className="flex-1">
+            <span className="text-xs font-semibold tracking-widest uppercase text-teal-400 bg-teal-400/10 px-3 py-1 rounded-full border border-teal-400/20">
+              Informe Ejecutivo · 2026
+            </span>
+            <h2 className="text-white font-bold text-2xl mt-3 mb-2">DataInsight Analytics</h2>
+            <p className="text-gray-400 text-sm leading-relaxed max-w-3xl">
               Somos una empresa especializada en el análisis del mercado de alojamientos turísticos a nivel global.
-              Este dashboard presenta un análisis comparativo de <span className="text-white font-semibold">6 ciudades clave</span> —
+              Este dashboard presenta un análisis comparativo de{' '}
+              <span className="text-white font-semibold">6 ciudades clave</span> —
               Sydney, New York, Madrid, London, Milan y Tokyo — evaluando precios medios,
-              disponibilidad y rentabilidad por barrio. Nuestro objetivo es proporcionar
-              <span className="text-teal-400 font-semibold"> insights accionables</span> para inversores
+              disponibilidad y rentabilidad por barrio. Nuestro objetivo es proporcionar{' '}
+              <span className="text-teal-400 font-semibold">insights accionables</span> para inversores
               y gestores de propiedades en el mercado Airbnb.
             </p>
-            <div className="flex gap-6 mt-4">
-              <div className="text-center">
-                <p className="text-2xl font-bold text-white">6</p>
-                <p className="text-gray-400 text-xs">Ciudades analizadas</p>
+            <div className="border-t border-gray-700 mt-6 pt-6 grid grid-cols-4 gap-4">
+              <div className="bg-gray-800 rounded-xl p-4 text-center border border-gray-700">
+                <p className="text-3xl font-bold text-white">6</p>
+                <p className="text-gray-500 text-xs mt-1 uppercase tracking-wider">Ciudades</p>
               </div>
-              <div className="text-center">
-                <p className="text-2xl font-bold text-white">220K</p>
-                <p className="text-gray-400 text-xs">Alojamientos</p>
+              <div className="bg-gray-800 rounded-xl p-4 text-center border border-gray-700">
+                <p className="text-3xl font-bold text-teal-400">220K</p>
+                <p className="text-gray-500 text-xs mt-1 uppercase tracking-wider">Alojamientos</p>
               </div>
-              <div className="text-center">
-                <p className="text-2xl font-bold text-white">$136</p>
-                <p className="text-gray-400 text-xs">Precio medio global</p>
+              <div className="bg-gray-800 rounded-xl p-4 text-center border border-gray-700">
+                <p className="text-3xl font-bold text-blue-400">€136</p>
+                <p className="text-gray-500 text-xs mt-1 uppercase tracking-wider">Precio medio</p>
               </div>
-              <div className="text-center">
-                <p className="text-2xl font-bold text-white">120</p>
-                <p className="text-gray-400 text-xs">Días disp. media</p>
+              <div className="bg-gray-800 rounded-xl p-4 text-center border border-gray-700">
+                <p className="text-3xl font-bold text-white">120</p>
+                <p className="text-gray-500 text-xs mt-1 uppercase tracking-wider">Días disp.</p>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <CityBarChart
-        data={cityData}
-        title="Precio promedio por ciudad"
-        analysis="Sydney lidera con el precio más alto ($208), seguido de New York ($153). Tokyo tiene el precio más accesible con $91. La diferencia entre la ciudad más cara y la más barata es de $117."
-      />
+      {/* Sección 1 */}
+      <section>
+        <SectionHeader
+          emoji="🏙️"
+          title="Comparativa de Precios por Ciudad"
+          subtitle="Precio medio · 6 ciudades globales"
+        />
+        <CityBarChart
+          data={cityData}
+          title="Precio promedio por ciudad"
+          analysis="Sydney lidera con el precio más alto (€208), seguido de New York (€153). Tokyo tiene el precio más accesible con €91. La diferencia entre la ciudad más cara y la más barata es de €117."
+        />
+      </section>
 
-      <NeighbourhoodScatter
-        data={scatterData}
-        title="Promedio de price, Promedio de number_of_reviews y city por neighbourhood"
-        analysis="Los barrios con precios entre $50-$150 concentran la mayor cantidad de reseñas, indicando mayor demanda. A precios superiores a $300 las reseñas caen significativamente. La línea azul marca la media de reseñas (20)."
-      />
+      {/* Sección 2 */}
+      <section>
+        <SectionHeader
+          emoji="📊"
+          title="Rentabilidad por Barrio"
+          subtitle="Precio vs. reseñas · Madrid & London"
+        />
+        <NeighbourhoodScatter
+          data={scatterData}
+          title="Promedio de price, Promedio de number_of_reviews y city por neighbourhood"
+          analysis="Los barrios con precios entre €50-€150 concentran la mayor cantidad de reseñas, indicando mayor demanda. A precios superiores a $300 las reseñas caen significativamente. La línea azul marca la media de reseñas (20)."
+        />
+      </section> 
 
-      <NeighbourhoodHorizontalBar
-        data={horizontalData}
-        title="Promedio de price por neighbourhood"
-        threshold={300}
-      />
+      {/* Sección 3 */}
+      <section>
+        <SectionHeader
+          emoji="🏘️"
+          title="Ranking de Barrios por Precio"
+          subtitle="Top barrios · precio medio por alojamiento"
+        />
+        <NeighbourhoodHorizontalBar
+          data={horizontalData}
+          title="Promedio de price por neighbourhood"
+          threshold={300}
+        />
+      </section>
 
-      <PriceMap
-        data={madridData}
-        title="Mapa de precios por ubicación — Madrid"
-      />
+      {/* Sección 4 */}
+      <section>
+        <SectionHeader
+          emoji="🗺️"
+          title="Distribución Geográfica — Madrid"
+          subtitle="Mapa de precios por ubicación"
+        />
+        <PriceMap
+          data={madridData}
+          title="Mapa de precios por ubicación — Madrid"
+        />
+      </section>
+
+      <section>
+  <SectionHeader
+    emoji="👤"
+    title="Comparación Host vs Superhost.. "
+    subtitle="Distribución de tipos de anfitrión"
+  />
+  <DonutChart
+    data={hostData}
+    title="Comparación entre host y superhost"
+    subtitle="superhost cuando tiene 4 o más propiedades"
+    analysis="El 73,83% de los alojamientos pertenecen a hosts regulares (161.256), mientras que el 26,17% son gestionados por superhosts (57.153). Los superhosts se caracterizan por tener 4 o más propiedades y mejores valoraciones."
+  />
+</section>
+
     </div>
+    
   )
 }

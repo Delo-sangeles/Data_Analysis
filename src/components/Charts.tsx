@@ -1,7 +1,8 @@
 import {
   BarChart, Bar, XAxis, YAxis,
   CartesianGrid, Tooltip, ResponsiveContainer, Cell,
-  ScatterChart, Scatter, ReferenceLine, ZAxis
+  ScatterChart, Scatter, ReferenceLine, ZAxis,
+  PieChart, Pie, Legend
 } from 'recharts'
 
 // ─── Tipos ───────────────────────────────────────────────────────────────────
@@ -41,6 +42,18 @@ interface HorizontalProps {
   threshold?: number
 }
 
+interface DonutData {
+  name: string
+  value: number
+}
+
+interface DonutProps {
+  data: DonutData[]
+  title: string
+  subtitle?: string
+  analysis: string
+}
+
 // ─── Colores ─────────────────────────────────────────────────────────────────
 
 const COLORS = ['#E8622A', '#E8956A', '#8FA882', '#7A9E6E', '#6BB5A0', '#4A9E8A']
@@ -52,7 +65,7 @@ function CustomTooltip({ active, payload, label }: any) {
     return (
       <div className="bg-gray-800 border border-gray-600 rounded-lg p-3 shadow-lg">
         <p className="text-lg font-semibold tracking-wide text-gray-100 border-b border-gray-700 pb-3 mb-4">{label}</p>
-        <p className="text-orange-400">Precio medio: <span className="font-bold">${payload[0].value}</span></p>
+        <p className="text-orange-400">Precio medio: <span className="font-bold">€{payload[0].value}</span></p>
       </div>
     )
   }
@@ -65,7 +78,7 @@ function ScatterTooltip({ active, payload }: any) {
     return (
       <div className="bg-gray-800 border border-teal-500/30 rounded-lg p-3 shadow-lg">
         <p className="text-teal-400 font-semibold">{d.neighbourhood}</p>
-        <p className="text-gray-300 text-sm">Precio medio: <span className="text-white font-bold">${d.price}</span></p>
+        <p className="text-gray-300 text-sm">Precio medio: <span className="text-white font-bold">€{d.price}</span></p>
         <p className="text-gray-300 text-sm">Reseñas: <span className="text-white font-bold">{d.reviews}</span></p>
         <p className="text-gray-400 text-xs mt-1">{d.city}</p>
       </div>
@@ -78,9 +91,9 @@ function ScatterTooltip({ active, payload }: any) {
 
 export function CityBarChart({ data, title, analysis }: Props) {
   return (
-    <div className="flex gap-6 max-w-5xl">
-      <div className="bg-gray-900 rounded-xl p-6 w-2/3">
-        <h3 className="text-white font-semibold text-lg mb-4">{title}</h3>
+    <div className="flex flex-col gap-4 max-w-5xl">  {/* ← flex-col en vez de flex */}
+      <div className="bg-gray-900 rounded-xl p-6">
+        <h3 className="text-lg font-semibold tracking-wide text-gray-100 border-b border-gray-700 pb-3 mb-4">{title}</h3>
         <ResponsiveContainer width="100%" height={300}>
           <BarChart data={data} margin={{ top: 20, right: 10, left: 0, bottom: 5 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="#374151" vertical={false} />
@@ -95,8 +108,10 @@ export function CityBarChart({ data, title, analysis }: Props) {
           </BarChart>
         </ResponsiveContainer>
       </div>
-      <div className="bg-gray-800 rounded-xl p-6 w-64 flex flex-col justify-center">
-        <h4 className="text-gray-400 text-sm font-medium uppercase tracking-wider mb-3">📊 Análisis</h4>
+
+      {/* Análisis debajo */}
+      <div className="bg-gray-900 rounded-xl p-6">
+        <h4 className="text-gray-400 text-sm font-medium uppercase tracking-wider mb-3"> Análisis</h4>
         <p className="text-gray-200 text-sm leading-relaxed">{analysis}</p>
       </div>
     </div>
@@ -107,9 +122,9 @@ export function CityBarChart({ data, title, analysis }: Props) {
 
 export function NeighbourhoodScatter({ data, title, analysis }: ScatterProps) {
   return (
-    <div className="flex gap-6">
-      <div className="bg-gray-900 rounded-xl p-6 flex-1">
-        <h3 className="text-teal-400 font-semibold text-sm text-center mb-4">{title}</h3>
+    <div className="flex flex-col gap-4 max-w-5xl">
+      <div className="bg-gray-900 rounded-xl p-6">
+        <h3 className="text-lg font-semibold tracking-wide text-gray-100 border-b border-gray-700 pb-3 mb-4">{title}</h3>
         <ResponsiveContainer width="100%" height={350}>
           <ScatterChart margin={{ top: 10, right: 20, left: 0, bottom: 20 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="#1F3A3A" />
@@ -132,8 +147,10 @@ export function NeighbourhoodScatter({ data, title, analysis }: ScatterProps) {
           </ScatterChart>
         </ResponsiveContainer>
       </div>
-      <div className="bg-gray-800 rounded-xl p-6 w-64 flex flex-col justify-center">
-        <h4 className="text-teal-400 text-sm font-medium uppercase tracking-wider mb-3">📊 Análisis</h4>
+
+      {/* Análisis debajo */}
+      <div className="bg-gray-900 rounded-xl p-6">
+        <h4 className="text-teal-400 text-sm font-medium uppercase tracking-wider mb-3"> Análisis</h4>
         <p className="text-gray-200 text-sm leading-relaxed">{analysis}</p>
       </div>
     </div>
@@ -171,6 +188,50 @@ export function NeighbourhoodHorizontalBar({ data, title, threshold = 300 }: Hor
           </Bar>
         </BarChart>
       </ResponsiveContainer>
+    </div>
+  )
+}
+
+const DONUT_COLORS = ['#2DD4BF', '#0F766E']
+
+export function DonutChart({ data, title, subtitle, analysis }: DonutProps) {
+  const total = data.reduce((a, b) => a + b.value, 0)
+
+  return (
+    <div className="flex flex-col gap-4 max-w-5xl">
+      <div className="bg-gray-900 rounded-xl p-6">
+        <h3 className="text-lg font-semibold tracking-wide text-gray-100 border-b border-gray-700 pb-3 mb-2">{title}</h3>
+        {subtitle && <p className="text-teal-400 text-sm mb-4">{subtitle}</p>}
+        <ResponsiveContainer width="100%" height={350}>
+          <PieChart>
+            <Pie
+              data={data}
+              cx="50%"
+              cy="50%"
+              innerRadius={100}
+              outerRadius={150}
+              dataKey="value"
+              label={({ name, value }) => `${value.toLocaleString()} (${((value / total) * 100).toFixed(2)}%)`}
+              labelLine={true}
+            >
+              {data.map((_, index) => (
+                <Cell key={index} fill={DONUT_COLORS[index % DONUT_COLORS.length]} />
+              ))}
+            </Pie>
+            <Tooltip
+              contentStyle={{ backgroundColor: '#1F2937', border: 'none', borderRadius: '8px', color: '#fff' }}
+              formatter={(value: any) => [value.toLocaleString(), '']}
+            />
+            <Legend
+              formatter={(value) => <span style={{ color: '#9CA3AF' }}>{value}</span>}
+            />
+          </PieChart>
+        </ResponsiveContainer>
+      </div>
+      <div className="bg-gray-900 rounded-xl p-6">
+        <h4 className="text-teal-400 text-sm font-medium uppercase tracking-wider mb-3">📊 Análisis</h4>
+        <p className="text-gray-200 text-sm leading-relaxed">{analysis}</p>
+      </div>
     </div>
   )
 }
