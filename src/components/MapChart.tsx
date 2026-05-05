@@ -61,7 +61,7 @@ const getColor = (price: number) => {
               <Popup>
                 <div className="text-sm">
                   <p className="font-bold">{point.neighbourhood}</p>
-                  <p>💰 Precio: <strong>${point.price}</strong></p>
+                  <p>💰 Precio: <strong>€{point.price}</strong></p>
                   <p>⭐ Reseñas: <strong>{point.reviews}</strong></p>
                 </div>
               </Popup>
