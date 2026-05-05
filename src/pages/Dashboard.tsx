@@ -111,8 +111,7 @@ export default function Dashboard() {
 
       {/* Cabecera */}
       <div>
-        <h1 className="text-4xl font-bold tracking-tight bg-gradient-to-r from-teal-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(45,212,191,0.3)]">
-          Dashboard
+        <h1 className="text-2xl md:text-4xl font-bold ...">
         </h1>
         <p className="text-gray-400 text-sm tracking-widest uppercase mt-2">
           Análisis del mercado de alojamientos turísticos · 2026
@@ -122,7 +121,7 @@ export default function Dashboard() {
       {/* Resumen empresa */}
       <div className="bg-white/5 backdrop-blur-2xl border border-white/10 rounded-2xl p-8 shadow-xl shadow-black/30">
         
-        <div className="flex items-start gap-6">
+        <div className="flex flex-col md:flex-row items-start gap-4">
           
           <div className="bg-teal-500/10 border border-teal-400/30 rounded-xl p-4 shadow-md shadow-teal-500/20">
             <span className="text-4xl drop-shadow-[0_0_10px_rgba(45,212,191,0.7)]">📈</span>
@@ -148,7 +147,7 @@ export default function Dashboard() {
             </p>
 
             {/* Stats */}
-            <div className="border-t border-white/10 mt-6 pt-6 grid grid-cols-4 gap-4">
+            <div className="border-t border-gray-700 mt-6 pt-6 grid grid-cols-2 md:grid-cols-4 gap-4">
 
               {[
                 { value: '6', label: 'Ciudades', color: 'text-white' },

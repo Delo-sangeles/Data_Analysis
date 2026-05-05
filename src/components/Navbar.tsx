@@ -5,7 +5,8 @@ export function Navbar() {
       <div className="max-w-7xl mx-auto px-8 py-6 flex items-center justify-between">
         
         {/* Logo */}
-        <div className="flex items-center gap-4">
+      
+<div className="hidden md:flex items-center gap-3">
           
           <div className="bg-teal-500/10 border border-teal-400/30 rounded-xl p-3 shadow-md shadow-teal-500/20 backdrop-blur-md">
             <span className="text-xl text-teal-300 drop-shadow-[0_0_8px_rgba(45,212,191,0.8)]">
@@ -24,7 +25,7 @@ export function Navbar() {
         </div>
 
         {/* Links */}
-        <div className="flex items-center gap-2">
+        <div className="hidden md:flex items-center gap-2">
           
           <a href="#" className="px-4 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-white/10 hover:shadow-md hover:shadow-teal-500/20 transition-all duration-300">
             Dashboard
@@ -45,7 +46,7 @@ export function Navbar() {
         </div>
 
         {/* Badge fecha */}
-        <div className="flex items-center gap-4">
+        <div className="hidden md:flex items-center gap-3">
           
           <span className="text-xs text-gray-400 border border-white/10 bg-white/5 px-4 py-2 rounded-full backdrop-blur-md">
             📅 Abril 2026

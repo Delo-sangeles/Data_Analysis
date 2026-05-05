@@ -6,7 +6,7 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-900">
       <Navbar />
-      <div className="max-w-7xl mx-auto p-8">
+      <div className="max-w-7xl mx-auto px-4 md:px-8 py-6">
         <Dashboard />
       </div>
       <Footer />
