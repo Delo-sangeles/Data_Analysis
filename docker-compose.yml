@@ -1,48 +1,11 @@
 version: '3.8'
 
 services:
-  # Backend (ajusta según tu configuración real)
-  backend:
-    build:
-      context: ../Backend_API  # Ajusta la ruta a tu backend
-      dockerfile: Dockerfile
-    container_name: data-analysis-backend
-    ports:
-      - "8000:8000"
-    environment:
-      - NODE_ENV=production
-      - PORT=8000
-      # Agrega más variables según necesites
-    networks:
-      - data-analysis-network
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 10s
-
-  # Frontend
   frontend:
     build:
       context: .
       dockerfile: Dockerfile
-      args:
-        VITE_API_URL: http://backend:8000
-    container_name: data-analysis-frontend
+    container_name: datainsight-frontend
     ports:
-      - "3000:3000"
-    environment:
-      - VITE_API_URL=http://backend:8000
-      - VITE_API_TIMEOUT=30000
-    networks:
-      - data-analysis-network
-    depends_on:
-      backend:
-        condition: service_healthy
+      - "8080:80"
     restart: unless-stopped
-
-networks:
-  data-analysis-network:
-    driver: bridge
